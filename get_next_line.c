@@ -6,7 +6,7 @@
 /*   By: hsilverb <hsilverb@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/27 18:17:06 by hsilverb          #+#    #+#             */
-/*   Updated: 2022/12/29 18:48:25 by hsilverb         ###   ########lyon.fr   */
+/*   Updated: 2022/12/29 19:26:06 by hsilverb         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,8 @@ char	*ft_strjoin(char *s1, char *s2)
 	size_t	i;
 	size_t	j;
 
+	i = 0;
+	j = 0;
 	str = malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 1));
 	if (!str)
 		return (NULL);
@@ -46,7 +48,7 @@ char	*ft_strjoin(char *s1, char *s2)
 		str[i] = s1[i];
 		i++;
 	}
-	while (s2[i])
+	while (s2[j])
 		str[i++] = s2[j++];
 	str[i] = '\0';
 	return (str);
@@ -141,9 +143,13 @@ char	*get_next_line(int fd)
 
 int	main()
 {
-	int fd = open("./text.txt", O_RDONLY);
+	// int fd = open("./text.txt", O_RDONLY);
 
-	printf("%s", get_next_line(fd));
-	close(fd);
+	// printf("%s", get_next_line(fd));
+	// close(fd);
+	char *str = "falut";
+	char *str2 = "fa va fish de flute";
+
+	printf("%s \n", ft_strjoin(str, str2));
 	return (0);
 }
