@@ -6,12 +6,12 @@
 /*   By: hsilverb <hsilverb@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/27 18:18:50 by hsilverb          #+#    #+#             */
-/*   Updated: 2022/12/30 15:55:21 by hsilverb         ###   ########lyon.fr   */
+/*   Updated: 2022/12/30 18:36:43 by hsilverb         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef		BUFFER_SIZE
-#define		BUFFER_SIZE	3
+#define		BUFFER_SIZE	4
 
 #include <sys/types.h>
 #include <sys/stat.h>

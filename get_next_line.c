@@ -6,7 +6,7 @@
 /*   By: hsilverb <hsilverb@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/27 18:17:06 by hsilverb          #+#    #+#             */
-/*   Updated: 2022/12/30 18:32:12 by hsilverb         ###   ########lyon.fr   */
+/*   Updated: 2022/12/30 19:09:14 by hsilverb         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ static	size_t	ft_end_of_line(char *str)
 	return (0);
 }
 
-char	*ft_trim_line(char *str)
+char	*ft_trim_line(char *str, int ret)
 {
 	char	*new_line;
 	size_t	len;
@@ -88,10 +88,15 @@ char	*ft_trim_line(char *str)
 	}
 	new_line[i++] = '\n';
 	new_line[i] = '\0';
+	if (ret == 0)
+	{
+		free(new_line);
+		new_line = NULL;
+	}
 	return (new_line);
 }
 
-char	*ft_trim_newline(char *str)
+char	*ft_trim_newline(char *str, int ret)
 {
 	char	*next_line;
 	size_t	i;
@@ -108,6 +113,11 @@ char	*ft_trim_newline(char *str)
 	while(str[i])
 		next_line[j++] = str[i++];
 	str[i] = '\0';
+	if (ret == 0)
+	{
+		free(next_line);
+		next_line = NULL;
+	}
 	return (next_line);
 }
 
@@ -118,7 +128,7 @@ char	*get_next_line(int fd)
 	int				ret;
 	static	char			*temp;
 
-	line = "";
+	line = NULL;
 	if (!temp)
 		temp = "";
 	ret = 1;
@@ -132,8 +142,8 @@ char	*get_next_line(int fd)
 		if (ft_end_of_line(temp) == 1)
 			break;
 	}
-	line = ft_trim_line(temp);
-	temp = ft_trim_newline(temp);
+	line = ft_trim_line(temp, ret);
+	temp = ft_trim_newline(temp, ret);
 	return (line);
 }
 
@@ -146,7 +156,6 @@ int	main()
 	while (str)
 	{
 		printf("%s", str);
-		free(str);
 		str = get_next_line(fd);
 	}
 	close(fd);
