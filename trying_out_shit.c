@@ -1,26 +1,7 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: hsilverb <hsilverb@student.42lyon.fr>      +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/27 18:17:06 by hsilverb          #+#    #+#             */
-/*   Updated: 2022/12/30 18:32:12 by hsilverb         ###   ########lyon.fr   */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "get_next_line.h"
 #include <unistd.h>
 #include <stdio.h>
-
-/*
-	Read() return value is a size_t of many bytes it succeded to read, therefore if it was reached the end of the file, the return value
-	and the buffer size will be 0. And it return (-1) in case of an error
-	Create a stash to store the buffer until it reachs the end of the line
-	Static variable keeps its value between 2 calls on the same fucntion
-
-*/
+#include <string.h>
 
 size_t	ft_strlen(char *str)
 {
@@ -101,10 +82,10 @@ char	*ft_trim_newline(char *str)
 	i = 0;
 	while (str[i] != '\n')
 		i++;
+	i++;
 	next_line = malloc(sizeof(char) * (ft_strlen(str) - i + 1));
 	if (!next_line)
 		return (0);
-	i++;
 	while(str[i])
 		next_line[j++] = str[i++];
 	str[i] = '\0';
@@ -114,9 +95,9 @@ char	*ft_trim_newline(char *str)
 char	*get_next_line(int fd)
 {
 	char	*line;
-	char			buffer[BUFFER_SIZE + 1];
-	int				ret;
-	static	char			*temp;
+	char	buffer[BUFFER_SIZE + 1];
+	int		ret;
+	static	char	*temp;
 
 	line = "";
 	if (!temp)
@@ -141,12 +122,10 @@ int	main()
 {
 	int fd = open("./text.txt", O_RDONLY);
 
-	char *str;
-	str = get_next_line(fd);
+	char	*str = get_next_line(fd);
 	while (str)
 	{
 		printf("%s", str);
-		free(str);
 		str = get_next_line(fd);
 	}
 	close(fd);
