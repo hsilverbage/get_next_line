@@ -6,7 +6,7 @@
 /*   By: hsilverb <hsilverb@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/27 18:17:06 by hsilverb          #+#    #+#             */
-/*   Updated: 2023/01/03 19:55:58 by hsilverb         ###   ########lyon.fr   */
+/*   Updated: 2023/01/04 22:10:59 by hsilverb         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,62 +32,57 @@ char	*ft_strjoin(char *s1, char *s2)
 
 	i = 0;
 	j = 0;
-	str = malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 1));
+	size_t	k = 0;
+	while (s2[k])
+		k++;
+	printf("%zu len of s2", k);
+	printf("%zu \n", ft_strlen(s2));
+	if (!s1)
+		str = ft_calloc((ft_strlen(s2) + 1), sizeof(char));
+	else
+		str = ft_calloc((ft_strlen(s1) + ft_strlen(s2) + 1), sizeof(char));
 	if (!str)
 		return (NULL);
-	while (s1[i])
+	if (s1)
 	{
-		str[i] = s1[i];
-		i++;
+		while (s1[i])
+		{
+			str[i] = s1[i];
+			i++;
+		}
 	}
 	while (s2[j])
 		str[i++] = s2[j++];
-	str[i] = '\0';
+	// str[i] = '\0';
 	return (str);
-}
-
-static	size_t	ft_end_of_line(char *str)
-{
-	size_t	i;
-
-	i = 0;
-	while (str[i])
-	{
-		if (str[i] == '\n')
-			return (1);
-		i++;
-	}
-	return (0);
 }
 
 char	*ft_trim_line(char *temp)
 {
 	char	*new_line;
-	size_t	len;
-	size_t	i;
+	size_t		len;
+	size_t		i;
 
-	i = 0;
 	len = 0;
-	while (temp[len] != '\n' && temp[len])
+	i = 0;
+	while (temp[len] && temp[len] != '\n')
 		len++;
-	if (temp[len] == '\n')
-		new_line = malloc(sizeof(char) * (len + 2));
-	else
-		new_line = malloc(sizeof(char) * (len + 1));
+	new_line = ft_calloc((len + 1), sizeof(char));
 	if (!new_line)
 		return (NULL);
-	while (i < len)
+	while (i < len && temp[i])
 	{
 		new_line[i] = temp[i];
 		i++;
 	}
 	if (temp[i] == '\n')
 		new_line[i++] = '\n';
-	new_line[i] = '\0';
+	// if (temp[i] == '\0')
+	// 	new_line[i] = '\0';
 	return (new_line);
 }
 
-char	*ft_trim_newline(char *temp, int ret)
+char	*ft_trim_next_line(char *temp, char *line)
 {
 	char	*next_line;
 	size_t	i;
@@ -95,31 +90,27 @@ char	*ft_trim_newline(char *temp, int ret)
 
 	j = 0;
 	i = 0;
-	if (ret == 0)
-		return (NULL);
-	while (temp[i] != '\n' && temp[i])
+	while (temp[i] == line[i] && temp[i] && line[i])
 		i++;
-	next_line = malloc(sizeof(char) * (ft_strlen(temp) - i + 1));
+	next_line = ft_calloc((ft_strlen(temp) - i + 1), sizeof(char));
 	if (!next_line)
 		return (NULL);
-	i++;
-	while(temp[i])
+	while (temp[i])
 		next_line[j++] = temp[i++];
-	temp[i] = '\0';
-	free(temp);
+	// next_line[j] = '\0';
 	return (next_line);
 }
 
 char	*get_next_line(int fd)
 {
-	char			*line;
-	char			buffer[BUFFER_SIZE + 1];
-	int				ret;
-	static	char	*temp;
+	char		*line;
+	static char	*temp;
+	char		buffer[BUFFER_SIZE + 1];
+	int			ret;
 
 	line = NULL;
 	if (!temp)
-		temp = "";
+		temp = NULL;
 	ret = 1;
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
@@ -129,24 +120,11 @@ char	*get_next_line(int fd)
 		buffer[ret] = '\0';
 		temp = ft_strjoin(temp, buffer);
 		if (ft_end_of_line(temp) == 1)
-			break;
+			break ;
 	}
 	line = ft_trim_line(temp);
-	temp = ft_trim_newline(temp, ret);
+	temp = ft_trim_next_line(temp, line);
+	if (line[0] == '\0')
+		return (free(line), free(temp), NULL);
 	return (line);
-}
-
-int	main()
-{
-	int fd = open("./text.txt", O_RDONLY);
-
-	char *str;
-	str = get_next_line(fd);
-	while (str)
-	{
-		printf("%s", str);
-		str = get_next_line(fd);
-	}
-	close(fd);
-	return (0);
 }

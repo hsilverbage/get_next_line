@@ -19,10 +19,10 @@ int	main(void)
 	// return (0);
 
 	/* one file - one line */
-	// int fd = open("./test1.txt", O_RDONLY);
-	// printf("\n%s", get_next_line(fd));
-	// close(fd);
-	// return (0);
+	int fd = open("./test1.txt", O_RDONLY);
+	printf("%s", get_next_line(fd));
+	close(fd);
+	return (0);
 
 	/* one file - two line */
 	// int fd = open("./test2.txt", O_RDONLY);
@@ -95,14 +95,14 @@ int	main(void)
 	str = get_next_line(0);
 	}*/
 
-	int fd = open("./text.txt", O_RDONLY);
+	// int fd = open("./text.txt", O_RDONLY);
 
-	char	*str = get_next_line(fd);
-	while (str)
-	{
-		printf("%s", str);
-		str = get_next_line(fd);
-	}
-	close(fd);
-	return (0);
+	// char	*str = get_next_line(fd);
+	// while (str)
+	// {
+	// 	printf("%s", str);
+	// 	str = get_next_line(fd);
+	// }
+	// close(fd);
+	// return (0);
 }

@@ -1,33 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hsilverb <hsilverb@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/27 18:18:50 by hsilverb          #+#    #+#             */
-/*   Updated: 2023/01/04 22:09:48 by hsilverb         ###   ########lyon.fr   */
+/*   Created: 2023/01/04 15:18:11 by hsilverb          #+#    #+#             */
+/*   Updated: 2023/01/04 21:55:01 by hsilverb         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
+#include "get_next_line.h"
+#include <unistd.h>
+#include <stdio.h>
 
-# ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 300
-# endif
+int	main(void)
+{
+	int		fd;
+	char	*str;
 
-# include <sys/types.h>
-# include <sys/stat.h>
-# include <fcntl.h>
-# include <stdlib.h>
-# include <unistd.h>
+	fd = open("./test1.txt", O_RDONLY);
+	str = get_next_line(fd);
+	// while (str)
+	// {
+	printf("%s", str);
+	// 	str = get_next_line(fd);
+	// }
+	close(fd);
+	return (0);
+}
 
-size_t	ft_end_of_line(char *str);
-
-void	ft_bzero(void *s, size_t n);
-void	*ft_calloc(size_t count, size_t size);
-
-char	*get_next_line(int fd);
-
-#endif
