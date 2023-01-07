@@ -6,7 +6,7 @@
 /*   By: hsilverb <hsilverb@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/27 18:18:50 by hsilverb          #+#    #+#             */
-/*   Updated: 2023/01/04 22:09:48 by hsilverb         ###   ########lyon.fr   */
+/*   Updated: 2023/01/07 18:50:35 by hsilverb         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define GET_NEXT_LINE_H
 
 # ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 300
+#  define BUFFER_SIZE 30
 # endif
 
 # include <sys/types.h>

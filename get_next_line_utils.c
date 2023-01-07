@@ -6,13 +6,11 @@
 /*   By: hsilverb <hsilverb@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/27 18:18:52 by hsilverb          #+#    #+#             */
-/*   Updated: 2023/01/04 21:55:47 by hsilverb         ###   ########lyon.fr   */
+/*   Updated: 2023/01/07 18:49:09 by hsilverb         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-#include <unistd.h>
-#include <stdio.h>
 
 size_t	ft_end_of_line(char *str)
 {
