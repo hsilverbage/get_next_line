@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: henrik <henrik@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: hsilverb <hsilverb@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/27 18:17:06 by hsilverb          #+#    #+#             */
-/*   Updated: 2023/01/08 15:45:34 by henrik           ###   ########lyon.fr   */
+/*   Updated: 2023/01/09 19:59:53 by hsilverb         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static size_t	ft_strlen(char *str)
 	return (i);
 }
 
-static char	*ft_strjoin(char *s1, char *s2)
+static char	*ft_strjoin(char *line, char *s2)
 {
 	char	*str;
 	size_t	i;
@@ -32,26 +32,27 @@ static char	*ft_strjoin(char *s1, char *s2)
 
 	i = 0;
 	j = 0;
-	if (!s1)
+	if (!line)
 		str = malloc(sizeof(char) * (ft_strlen(s2) + 1));
 	else
-		str = malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 1));
+		str = malloc(sizeof(char) * (ft_strlen(line) + ft_strlen(s2) + 1));
 	if (!str)
 		return (NULL);
-	if(s1)
+	if(line)
 	{
-		while (s1[i])
+		while (line[i])
 		{
-			str[i] = s1[i];
+			str[i] = line[i];
 			i++;
 		}
 	}
 	while (s2[j])
 		str[i++] = s2[j++];
 	str[i] = '\0';
-	if (s1)
-		free(s1);
-	return (str);
+	line = str;
+	// free(str);
+	// str = NULL;
+	return (line);
 }
 
 static char	*ft_trim_line(char *line)
@@ -69,7 +70,7 @@ static char	*ft_trim_line(char *line)
 	else
 		new_line = malloc(sizeof(char) * (len + 1));
 	if (!new_line)
-		return (free(line), NULL);
+		return (NULL);
 	while (i < len)
 	{
 		new_line[i] = line[i];
@@ -78,7 +79,10 @@ static char	*ft_trim_line(char *line)
 	if (line[i] == '\n')
 		new_line[i++] = '\n';
 	new_line[i] = '\0';
-	return (new_line);
+	line = new_line;
+	// free(new_line);
+	// new_line = NULL;
+	return (line);
 }
 
 static char	*ft_trim_next_line(char *line, char *temp)
@@ -119,21 +123,17 @@ char	*get_next_line(int fd)
 	ret = 1;
 	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, NULL, 0) < 0)
 		return (NULL);
-	while (ret != 0 && ft_end_of_line(line) == 0)
+	while (ret != 0 || ft_end_of_line(temp) != 1)
 	{
 		ret = read(fd, buffer, BUFFER_SIZE);
 		buffer[ret] = '\0';
 		line = ft_strjoin(line, buffer);
-		if (!line)
-			return (NULL);
+		if(ft_end_of_line(line) == 1)
+			break ;
 	}
 	ft_trim_next_line(line, temp);
 	line = ft_trim_line(line);
-	if (ret == 0)
-	{
-		if (line)
-			free(line);
+	if (ret == 0 || !temp[0])
 		line = NULL;
-	}
 	return (line);
 }

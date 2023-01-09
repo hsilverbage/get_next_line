@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: henrik <henrik@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: hsilverb <hsilverb@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 15:18:11 by hsilverb          #+#    #+#             */
-/*   Updated: 2023/01/08 15:11:37 by henrik           ###   ########lyon.fr   */
+/*   Updated: 2023/01/09 17:19:21 by hsilverb         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	main(void)
 	int		fd;
 	char	*str;
 
-	fd = open("./1char.txt", O_RDONLY);
+	fd = open("./shit.txt", O_RDONLY);
 	str = get_next_line(fd);
 	while (str)
 	{
