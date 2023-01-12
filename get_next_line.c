@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hsilverb <hsilverb@student.42lyon.fr>      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/01/12 19:07:48 by hsilverb          #+#    #+#             */
+/*   Updated: 2023/01/12 19:24:48 by hsilverb         ###   ########lyon.fr   */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "get_next_line.h"
 #include <unistd.h>
 #include <stdio.h>
@@ -9,7 +21,7 @@ size_t	ft_strlen(char *str)
 	i = 0;
 	if (!str)
 		return (0);
-	while(str[i])
+	while (str[i])
 		i++;
 	return (i);
 }
@@ -23,21 +35,17 @@ char	*ft_strjoin(char *s1, char *s2)
 	i = 0;
 	j = 0;
 	str = malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 1));
-	if(!str)
-	{
-		if(s1)
-			free(s1);
+	if (!str)
 		return (NULL);
-	}
 	if (s1)
 	{
-		while(s1[i])
+		while (s1[i])
 		{
 			str[i] = s1[i];
 			i++;
 		}
 	}
-	while(s2[j])
+	while (s2[j])
 		str[i++] = s2[j++];
 	str[i] = '\0';
 	if (s1)
@@ -52,7 +60,7 @@ char	*ft_trim_buf(char *line, char *buf)
 
 	i = 0;
 	j = 0;
-	if(!line)
+	if (!line)
 	{
 		ft_bzero(buf, BUFFER_SIZE + 1);
 		return (buf);
@@ -87,18 +95,14 @@ char	*ft_trim_line(char *line)
 		new_line = malloc(sizeof(char) * (i + 2));
 	else
 		new_line = malloc(sizeof(char) * (i + 1));
-	if(!new_line)
-	{
-		if (line)
-			free(line);
+	if (!new_line)
 		return (NULL);
-	}
-	while(j < i)
+	while (j < i)
 	{
 		new_line[j] = line[j];
 		j++;
 	}
-	if(line[j] == '\n')
+	if (line[j] == '\n')
 		new_line[j++] = '\n';
 	new_line[j] = '\0';
 	if (line)
@@ -108,16 +112,18 @@ char	*ft_trim_line(char *line)
 
 char	*get_next_line(int fd)
 {
-	static	char	buf[BUFFER_SIZE + 1];
-	char			*line;
-	int				ret;
+	static char	buf[BUFFER_SIZE + 1];
+	char		*line;
+	int			ret;
 
 	line = NULL;
 	if (buf[0])
 		line = ft_strjoin(line, buf);
-	if(read(fd, NULL, 0) == -1)
+	if (read(fd, NULL, 0) == -1)
 	{
 		ft_bzero(buf, BUFFER_SIZE + 1);
+		if (line)
+			free(line);
 		return (NULL);
 	}
 	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, NULL, 0) < 0)

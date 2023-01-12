@@ -6,7 +6,7 @@
 /*   By: hsilverb <hsilverb@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 15:18:11 by hsilverb          #+#    #+#             */
-/*   Updated: 2023/01/12 18:38:42 by hsilverb         ###   ########lyon.fr   */
+/*   Updated: 2023/01/12 19:03:52 by hsilverb         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,11 @@ int	main(void)
 	int		fd;
 	char	*str;
 
-	fd = open("./mega.txt", O_RDONLY);
+	fd = open("./1char.txt", O_RDONLY);
 	str = get_next_line(fd);
 	while (str)
 	{
+		printf("%s", str);
 		printf("%s", str);
 		str = get_next_line(fd);
 	}
