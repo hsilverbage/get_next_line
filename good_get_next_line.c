@@ -6,7 +6,7 @@
 /*   By: hsilverb <hsilverb@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 19:07:48 by hsilverb          #+#    #+#             */
-/*   Updated: 2023/01/12 20:01:00 by hsilverb         ###   ########lyon.fr   */
+/*   Updated: 2023/01/12 19:24:48 by hsilverb         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,21 +86,25 @@ char	*ft_trim_line(char *line)
 	size_t	j;
 
 	i = 0;
-	j = -1;
+	j = 0;
 	if (!line)
 		return (line);
 	while (line[i] != '\n' && line[i])
 		i++;
 	if (line[i] == '\n')
-		new_line = ft_calloc((i + 2), sizeof(char));
+		new_line = malloc(sizeof(char) * (i + 2));
 	else
-		new_line = ft_calloc((i + 1), sizeof(char));
+		new_line = malloc(sizeof(char) * (i + 1));
 	if (!new_line)
 		return (NULL);
-	while (++j < i)
+	while (j < i)
+	{
 		new_line[j] = line[j];
+		j++;
+	}
 	if (line[j] == '\n')
 		new_line[j++] = '\n';
+	new_line[j] = '\0';
 	if (line)
 		free(line);
 	return (new_line);
@@ -108,7 +112,7 @@ char	*ft_trim_line(char *line)
 
 char	*get_next_line(int fd)
 {
- 	static char	buf[BUFFER_SIZE + 1];
+	static char	buf[BUFFER_SIZE + 1];
 	char		*line;
 	int			ret;
 
