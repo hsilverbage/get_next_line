@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line_utils.c                              :+:      :+:    :+:   */
+/*   get_next_line_utils_bonus.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hsilverb <hsilverb@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/27 18:18:52 by hsilverb          #+#    #+#             */
-/*   Updated: 2023/01/13 15:07:43 by hsilverb         ###   ########lyon.fr   */
+/*   Created: 2023/01/13 19:22:35 by hsilverb          #+#    #+#             */
+/*   Updated: 2023/01/13 19:45:41 by hsilverb         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 size_t	ft_end_of_line(char *str)
 {
@@ -28,9 +28,8 @@ size_t	ft_end_of_line(char *str)
 	return (0);
 }
 
-char	*ft_if_read_doesnt_work(char *line, char *buf)
+char	*ft_if_read_doesnt_work(char *line)
 {
-	ft_bzero(buf, BUFFER_SIZE + 1);
 	if (line)
 		free(line);
 	return (NULL);

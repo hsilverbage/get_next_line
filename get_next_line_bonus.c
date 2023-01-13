@@ -1,18 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hsilverb <hsilverb@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/12 19:07:48 by hsilverb          #+#    #+#             */
-/*   Updated: 2023/01/12 19:24:48 by hsilverb         ###   ########lyon.fr   */
+/*   Created: 2023/01/13 19:22:47 by hsilverb          #+#    #+#             */
+/*   Updated: 2023/01/13 19:45:41 by hsilverb         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
-#include <unistd.h>
-#include <stdio.h>
+#include "get_next_line_bonus.h"
 
 size_t	ft_strlen(char *str)
 {
@@ -86,25 +84,21 @@ char	*ft_trim_line(char *line)
 	size_t	j;
 
 	i = 0;
-	j = 0;
+	j = -1;
 	if (!line)
 		return (line);
 	while (line[i] != '\n' && line[i])
 		i++;
 	if (line[i] == '\n')
-		new_line = malloc(sizeof(char) * (i + 2));
+		new_line = ft_calloc((i + 2), sizeof(char));
 	else
-		new_line = malloc(sizeof(char) * (i + 1));
+		new_line = ft_calloc((i + 1), sizeof(char));
 	if (!new_line)
 		return (NULL);
-	while (j < i)
-	{
+	while (++j < i)
 		new_line[j] = line[j];
-		j++;
-	}
 	if (line[j] == '\n')
 		new_line[j++] = '\n';
-	new_line[j] = '\0';
 	if (line)
 		free(line);
 	return (new_line);
@@ -112,31 +106,29 @@ char	*ft_trim_line(char *line)
 
 char	*get_next_line(int fd)
 {
-	static char	buf[BUFFER_SIZE + 1];
+	static char	buf[FD_MAX][BUFFER_SIZE + 1];
 	char		*line;
 	int			ret;
 
 	line = NULL;
-	if (buf[0])
-		line = ft_strjoin(line, buf);
+	if (buf[fd][0])
+		line = ft_strjoin(line, buf[fd]);
 	if (read(fd, NULL, 0) == -1)
 	{
-		ft_bzero(buf, BUFFER_SIZE + 1);
-		if (line)
-			free(line);
-		return (NULL);
+		buf[fd][0] = '\0';
+		return (ft_if_read_doesnt_work(line));
 	}
 	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, NULL, 0) < 0)
 		return (free(line), NULL);
 	ret = 1;
 	while (ret != 0 && ft_end_of_line(line) != 1)
 	{
-		ret = read(fd, buf, BUFFER_SIZE);
-		buf[ret] = '\0';
+		ret = read(fd, buf[fd], BUFFER_SIZE);
+		buf[fd][ret] = '\0';
 		if (ret != 0)
-			line = ft_strjoin(line, buf);
+			line = ft_strjoin(line, buf[fd]);
 	}
-	ft_trim_buf(line, buf);
+	ft_trim_buf(line, buf[fd]);
 	line = ft_trim_line(line);
 	return (line);
 }

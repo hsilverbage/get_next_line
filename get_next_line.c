@@ -6,13 +6,11 @@
 /*   By: hsilverb <hsilverb@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 19:07:48 by hsilverb          #+#    #+#             */
-/*   Updated: 2023/01/12 20:01:00 by hsilverb         ###   ########lyon.fr   */
+/*   Updated: 2023/01/13 19:21:38 by hsilverb         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-#include <unistd.h>
-#include <stdio.h>
 
 size_t	ft_strlen(char *str)
 {
@@ -108,7 +106,7 @@ char	*ft_trim_line(char *line)
 
 char	*get_next_line(int fd)
 {
- 	static char	buf[BUFFER_SIZE + 1];
+	static char	buf[BUFFER_SIZE + 1];
 	char		*line;
 	int			ret;
 
@@ -116,12 +114,7 @@ char	*get_next_line(int fd)
 	if (buf[0])
 		line = ft_strjoin(line, buf);
 	if (read(fd, NULL, 0) == -1)
-	{
-		ft_bzero(buf, BUFFER_SIZE + 1);
-		if (line)
-			free(line);
-		return (NULL);
-	}
+		return (ft_if_read_doesnt_work(line, buf));
 	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, NULL, 0) < 0)
 		return (free(line), NULL);
 	ret = 1;
